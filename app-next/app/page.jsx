@@ -2,6 +2,8 @@ import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
 import Features from "@/components/features";
 import Footer from "@/components/footer";
+// import Login from "@/components/login/page.jsx";
+// import Signup from "@/components/signup/signup.jsx";
 
 export default function Home() {
   return (
@@ -12,6 +14,8 @@ export default function Home() {
         <Features />
       </div>
       <Footer />
+      {/* <Login />
+      <Signup /> */}
     </div>
   );
 }
