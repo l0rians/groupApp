@@ -37,7 +37,7 @@ export default function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full px-4 py-2 rounded bg-gray-700 text-white"
-            placeholder="Enter your password"
+            placeholder="Enter password"
           />
         </div>
         <button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded">Login</button>
