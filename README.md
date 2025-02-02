@@ -3,36 +3,65 @@
 # MovieAPP
 
 <img src="https://github.com/l0rians/groupApp/blob/main/Screenshot%202025-02-02%20at%2023.01.58.png" alt="image" >
-It consists of two main packages:
-
-- `api` which is a NodeJS project using Express for the API
-- `app` which is Next project using React for the web app
 
 
-## Prerequisites
 
-We used PostgreSQL for the database.Tailwind was used for css.
+🚀 **MovieAPP** is a collaborative platform that allows users to create and join movie discussion groups. 
 
-## Getting started
+🔗 **Live Demo**: [MovieApp on Render](https://groupapp-84k3.onrender.com)
 
-> Before you start, make sure no other projects are running, in order to have the ports free.
+---
 
-To get started you'll need terminals.
+## 📖 Features
+- 🔹 Create and join movie discussion groups
+- 🔹 User authentication (login/signup)
+- 🔹 Secure authentication using HTTP-only cookies
+- 🔹 Upload and manage avatars
+- 🔹 Real-time chat functionality
+- 🔹 PostgreSQL database integration
+- 🔹 Responsive UI with Tailwind CSS
 
-In the  terminal run the following commands:
+---
 
-```
-cd api
-cp .env-example .env
+## 🛠️ Tech Stack
+- **Frontend**: React, Tailwind CSS
+- **Backend**: Node.js, Express.js
+- **Database**: PostgreSQL (Hosted on Render)
+- **Authentication**: HTTP-only cookies for session management
+- **Hosting**: Render
+
+---
+
+## 🔐 Authentication & Security
+- We use **HTTP-only cookies** for user authentication instead of JWT tokens.  
+- This provides better security against **XSS (Cross-Site Scripting)** attacks.  
+- User sessions are stored securely and automatically managed by the server.  
+
+---
+
+## 🚀 Installation & Setup
+
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/your-repository/groupapp.git
+cd groupapp
+### 2️⃣ Install Dependencies
 npm install
+### 3️⃣ Configure Environment Variables
+### 4️⃣ Run the Project
 npm run dev
-```
+
+🛠️ Contributors
+👤 Yuliia Kotenko - https://github.com/melo4yxa77796
+👤 Noah - https://github.com/l0rians
+👤 Nushrath - GitHub Profile
 
 
 
-You can then open the web app at [http://localhost:3000](http://localhost:3000).
-![Testing the app with a browser](./images/app_test.png)
 
+## 🤝 Contact
+## 📧 Email: melo4yxa77796@gmail.com
+## 🐙 GitHub: https://github.com/l0rians/groupApp
 
  
 
@@ -53,28 +82,8 @@ You can then open the web app at [http://localhost:3000](http://localhost:3000).
 
 
 
-## Architecture diagram
 
-![Architecture](./images/architecture.png)
 
-## Applying consistent formatting
 
-Before you commit any changes you've made, you can run the command `npm run format` in either package to format the code using [Prettier](https://prettier.io/).
 
-Using a consistent code style makes it easier to read code which improves productivity and avoid bugs.  
-When collaborating with other people, a code base should still look like it was written by a single person.
 
-## Checking for common code problems
-
-Before you commit your changes, you can use `npm run check` in either package to check for code issues using [ESLint](https://eslint.org/).
-
-ESLint is a "linter", a tool that scans your code for common code problems, this can help you avoid bugs and write better code.
-
-## Deploying
-
-All 3 components (database, API, web app) can be deployed for free at [Render.com](https://render.com).
-Sign in using your Github account to make the process smoother.
-When you sign in you can specify which of your repositories you want Render.com to have access to.
-
-[Database and API deployment instructions](./api/README.md#deploying)  
-[App deployment instructions](./app/README.md#deploying-a-static-web-app)
