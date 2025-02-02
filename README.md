@@ -45,7 +45,9 @@
 ```bash
 git clone https://github.com/your-repository/groupapp.git
 cd groupapp
-  ### 2️⃣ Install Dependencies
+
+ npm install
+
 npm install
 ### 3️⃣ Configure Environment Variables
 ### 4️⃣ Run the Project
@@ -53,13 +55,9 @@ npm run dev
 
 
 ## 👨‍💻 Contributors
-
-| Name         | GitHub Profile  |
-|-------------|----------------|
-|Yuliia Kotenko  | [GitHub](https://github.com/melo4yxa77796) |
-| Noah  | [GitHub](https://github.com/l0rians) |
-| Nushrath | [GitHub](https://github.com/Nusrath-Jahan) |
-
+- [Yuliia Kotenko](https://github.com/melo4yxa77796)  
+- [Noah](https://github.com/l0rians)  
+- [Nushrath](https://github.com/Nusrath-Jahan)
 
 
 
