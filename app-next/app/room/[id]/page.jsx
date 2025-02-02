@@ -23,32 +23,35 @@ export default async function RoomPage({ params }) {
   const messages = await getMessages(params.id);
 
   return (
-    <div className="min-h-screen bg-gray-800">
-      <Navbar />
-      <main className="container mx-auto px-4 py-8 text-center">
-        <h1 className="text-4xl font-bold text-gray-300 mb-6">
-          Watch YouTube Videos Together
-        </h1>
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-          <div className="col-span-3 aspect-w-16 aspect-h-9">
-            {room.video_url && (
-              <iframe
-                src={`https://www.youtube.com/embed/${extractVideoId(
-                  room.video_url
-                )}`}
-                frameBorder="0"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-                className="w-full h-full rounded-lg shadow-lg"
-              ></iframe>
-            )}
+    
+    <div className="flex flex-col min-h-screen bg-gray-800">
+         <div className="container mx-auto px-4 flex-grow">
+            <Navbar />
+        <main className="container mx-auto px-4 py-8 text-center">
+          <h1 className="text-4xl font-bold text-gray-300 mb-6">
+            Watch YouTube Videos Together
+          </h1>
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+            <div className="col-span-3 aspect-w-16 aspect-h-9">
+              {room.video_url && (
+                <iframe
+                  src={`https://www.youtube.com/embed/${extractVideoId(
+                    room.video_url
+                  )}`}
+                  frameBorder="0"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                  className="w-full h-full rounded-lg shadow-lg"
+                ></iframe>
+              )}
+            </div>
+            <div className="col-span-2 bg-gray-900 text-gray-300 rounded-lg shadow-lg p-4 h-full flex flex-col">
+              <Chat initialMessages={messages} roomId={params.id} />
+              <CopyRoomUrlButton roomId={params.id} />
+            </div>
           </div>
-          <div className="col-span-2 bg-gray-900 text-gray-300 rounded-lg shadow-lg p-4 h-full flex flex-col">
-            <Chat initialMessages={messages} roomId={params.id} />
-            <CopyRoomUrlButton roomId={params.id} />
-          </div>
+        </main>
         </div>
-      </main>
       <Footer />
     </div>
   );
