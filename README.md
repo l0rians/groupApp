@@ -1,6 +1,6 @@
 <img src="./images/hyf.svg" alt="image" width="200px" height="200px">
 
-# HackYourFuture project template
+# MovieAPP
 
 This template is meant to be used as part of the meal-sharing and Final Project modules,
 but can work as a starting point for any full stack project.
