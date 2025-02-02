@@ -27,13 +27,7 @@ export default function ExplorePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // const button = document.getElementById("actionButton");
-  // if (isRegistered) {
-  //   button.classList.remove("bg-gray-400", "opacity-50", "cursor-not-allowed");
-  //   button.classList.add("bg-blue-500", "hover:bg-blue-700");
-  //   button.disabled = false;
-  //   button.textContent = "awailable";
-  // }
+  
 
   const fetchMovies = async (e) => {
     if (e) e.preventDefault();
