@@ -8,7 +8,6 @@ import { Youtube, Users, MessageCircle } from "lucide-react";
 
 export default function CreateRoomPage() {
   const [videoUrl, setVideoUrl] = useState("");
-  const [roomId, setRoomId] = useState(null);
 
   const handleCreateRoom = async () => {
     if (!videoUrl) {
@@ -19,7 +18,6 @@ export default function CreateRoomPage() {
     try {
       const room = await createRoom(videoUrl);
       if (room && room.id) {
-        setRoomId(room.id);
         window.location.href = `/room/${room.id}`;
       }
     } catch (error) {
