@@ -2,7 +2,7 @@
 
 # MovieAPP
 
-<img src="https://github.com/l0rians/groupApp/blob/main/Screenshot%202025-02-02%20at%2022.57.16.png" alt="image" >
+<img src="https://github.com/l0rians/groupApp/blob/main/Screenshot%202025-02-02%20at%2023.01.58.png" alt="image" >
 It consists of two main packages:
 
 - `api` which is a NodeJS project using Express for the API
@@ -11,7 +11,7 @@ It consists of two main packages:
 
 ## Prerequisites
 
-We used PostgreSQL for the database.
+We used PostgreSQL for the database.Tailwind was used for css.
 
 ## Getting started
 
