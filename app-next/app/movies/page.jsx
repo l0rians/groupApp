@@ -26,7 +26,7 @@ export default function ExplorePage() {
   const [favorites, setFavorites] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
+  const [isRegistered, setIsRegistered] = useState(false);
   
 
   const fetchMovies = async (e) => {
@@ -186,9 +186,12 @@ export default function ExplorePage() {
     return `${hours}h ${remainingMinutes}m`;
   };
 
-  const cookies = document.cookie.split("; ");
-  const usernameCookie = cookies.find((row) => row.startsWith("username="));
-  const isRegistered = !!usernameCookie;
+  useEffect(() => {
+    const cookies = document.cookie.split("; ");
+    const usernameCookie = cookies.find((row) => row.startsWith("username="));
+
+    setIsRegistered(!!usernameCookie);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-800">
