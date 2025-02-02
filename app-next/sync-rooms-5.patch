@@ -1,0 +1,113 @@
+commit f4427668e0dae68861e5a08252a5c5f4c4cb9591
+Author: r0hitsharma <rs@rohit.sh>
+Date:   Sun Feb 2 18:22:08 2025 +0100
+
+    fixup! Update room status.
+
+diff --git a/app-next/components/Video.jsx b/app-next/components/Video.jsx
+index 349153c..f994352 100644
+--- a/app-next/components/Video.jsx
++++ b/app-next/components/Video.jsx
+@@ -5,43 +5,60 @@ import ReactPlayer from 'react-player/youtube';
+ import { getRoom, updateRoom } from "@/roomActions";
+ 
+ export function Video ({ id, url, cursor, state }) {
++  const videoRef = useRef(null);
+   const playedSeconds = useRef(cursor);
+-  const videoState = useRef(state);
++  const [videoState, setVideoState] = useState(state);
+ 
+   async function refreshRoom(){
+     const room = await getRoom(id);
+-    playedSeconds.current = room.cursor;
+-    videoState.current = room.state;
++
++    if(Math.abs(playedSeconds.current - room.cursor) > 15)
++      videoRef.seekTo(room.cursor, 'seconds');
++    else
++     playedSeconds.current = room.cursor;
++    setVideoState(room.video_state);
+   }
+ 
+   useEffect(() => {
+-    const intervalId = setInterval(refreshRoom, 3000);
++    const intervalId = setInterval(refreshRoom, 3_000);
+     return () => clearInterval(intervalId);
+   }, []);
+ 
+-  function saveRoom() {
+-    updateRoom({ id, cursor: playedSeconds.current, video_state: videoState.current });
++  function saveRoom(props) {
++    updateRoom({ id, cursor: playedSeconds.current, ...props });
+   }
+ 
+-  return <ReactPlayer url={url} width={"100%"} height={"100%"} onProgress={x => {
+-    playedSeconds.current = parseInt(x.playedSeconds);
+-    saveRoom();
+-  }} controls
+-  playing={videoState.current === 'playing'}
+-  muted={videoState.current === 'playing'}
+-  onPlay={() => {
+-    videoState.current = 'playing';
+-    saveRoom();
+-  }}
+-  onPause={() => {
+-    videoState.current = 'paused';
+-    saveRoom();
+-  }}
+-  config={{
+-    youtube: {
+-      playerVars: {
+-        start: playedSeconds.current
++  return <ReactPlayer
++    url={url}
++    width={"100%"}
++    height={"100%"}
++    progressInterval={10_000}
++    onProgress={x => {
++      playedSeconds.current = parseInt(x.playedSeconds);
++      saveRoom();
++    }}
++    controls
++    playing={videoState === 'playing'}
++    muted={videoState === 'playing'}
++    onSeek={seconds => {
++      playedSeconds.current = parseInt(seconds);
++      saveRoom();
++    }}
++    onPlay={() => {
++      setVideoState('playing');
++      saveRoom({ video_state: 'playing'});
++    }}
++    onPause={() => {
++      setVideoState('paused');
++      saveRoom({ video_state: 'paused'});
++    }}
++    ref={videoRef}
++    config={{
++      youtube: {
++        playerVars: {
++          start: playedSeconds.current
++        }
+       }
+-    }
+-  }}/>;
++    }}
++  />;
+ }
+\ No newline at end of file
+diff --git a/app-next/roomActions.js b/app-next/roomActions.js
+index 66f9dc0..750e534 100644
+--- a/app-next/roomActions.js
++++ b/app-next/roomActions.js
+@@ -29,8 +29,8 @@ export async function getRoom(roomId) {
+ export async function updateRoom(room) {
+   try {
+     await connection('room').where({id: room.id}).update({
+-      cursor: room.cursor,
+-      video_state: room.video_state,
++      ...(room.cursor && {cursor: room.cursor}),
++      ...(room.video_state && {video_state: room.video_state}),
+     });
+   }  catch (error) {
+     console.error("Error updating room:", error);

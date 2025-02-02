@@ -29,8 +29,8 @@ export async function getRoom(roomId) {
 export async function updateRoom(room) {
   try {
     await connection('room').where({id: room.id}).update({
-      cursor: room.cursor,
-      video_state: room.video_state,
+      ...(room.cursor && {cursor: room.cursor}),
+      ...(room.video_state && {video_state: room.video_state}),
     });
   }  catch (error) {
     console.error("Error updating room:", error);
