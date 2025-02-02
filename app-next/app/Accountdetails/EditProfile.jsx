@@ -159,6 +159,7 @@ export default function EditProfile({ onClose, updateAvatar }) {
               <button
                 onClick={open}
                 className="w-full py-3 rounded-xl bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white font-semibold flex items-center justify-center space-x-2 shadow-lg transition-transform transform hover:scale-105"
+               
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

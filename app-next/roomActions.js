@@ -26,6 +26,17 @@ export async function getRoom(roomId) {
   }
 }
 
+export async function updateRoom(room) {
+  try {
+    await connection('room').where({id: room.id}).update({
+      cursor: room.cursor,
+    });
+  }  catch (error) {
+    console.error("Error updating room:", error);
+    throw new Error("Failed to update room");
+  }
+}
+
 export async function sendMessage(roomId, content) {
   try {
     const cookieStore = cookies();
