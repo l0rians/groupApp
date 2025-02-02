@@ -1,4 +1,4 @@
-<img src="./images/hyf.svg" alt="image" width="200px" height="200px">
+<img src="https://github.com/l0rians/groupApp/blob/main/Screenshot%202025-02-02%20at%2022.42.58.png" alt="image" width="200px" height="200px">
 
 # MovieAPP
 
