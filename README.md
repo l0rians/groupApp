@@ -2,7 +2,7 @@
 
 # MovieAPP
 
-
+<img src="https://github.com/l0rians/groupApp/blob/main/Screenshot%202025-02-02%20at%2022.42.58.png" alt="image" >
 It consists of two main packages:
 
 - `api` which is a NodeJS project using Express for the API
