@@ -29,7 +29,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="py-6 flex justify-between items-center">
+      <header className="py-6 flex flex-col sm:flex-row justify-between items-center">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2">
             <PlayCircle className="h-8 w-8 text-blue-500" />
