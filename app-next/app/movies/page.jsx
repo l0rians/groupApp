@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -12,25 +13,43 @@ const API_KEY = "8ec0629bf685d1704229f499278c23a5";
 const API_URL = "https://api.themoviedb.org/3";
 
 export default function ExplorePage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [showFilters, setShowFilters] = useState(false);
-  const [title, setTitle] = useState("");
-  const [genre, setGenre] = useState("");
-  const [rating, setRating] = useState("");
-  const [year, setYear] = useState("");
-  const [language, setLanguage] = useState("");
+  const [title, setTitle] = useState(searchParams.get("title") || "");
+  const [genre, setGenre] = useState(searchParams.get("genre") || "");
+  const [rating, setRating] = useState(searchParams.get("rating") || "");
+  const [year, setYear] = useState(searchParams.get("year") || "");
+  const [language, setLanguage] = useState(searchParams.get("language") || "");
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [movieDetails, setMovieDetails] = useState(null);
   const [favorites, setFavorites] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isRegistered, setIsRegistered] = useState(false);
-  
+
+  const initialPage = parseInt(searchParams.get("page")) || 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
+
+  const updateURL = (newPage = 1) => {
+    const params = new URLSearchParams({
+      ...(title && { title }),
+      ...(genre && { genre }),
+      ...(rating && { rating }),
+      ...(year && { year }),
+      ...(language && { language }),
+      page: newPage,
+    });
+
+    router.push(`?${params.toString()}`, undefined, { shallow: true });
+  };
 
   const fetchMovies = async (e) => {
-    if (e) e.preventDefault();
+    if (e && typeof e.preventDefault === "function") {
+      e.preventDefault();
+    }
     setError("");
     setLoading(true);
 
@@ -61,9 +80,18 @@ export default function ExplorePage() {
     }
   };
 
+  useEffect(() => {
+    fetchMovies(currentPage);
+  }, [currentPage, title, genre, rating, year, language]);
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    fetchMovies();
+    updateURL(page);
+  };
+  const handleFilterSubmit = (e) => {
+    e.preventDefault();
+    setCurrentPage(1);
+    updateURL(1);
   };
 
   const Pagination = ({ totalPages, currentPage, onPageChange }) => {
@@ -226,7 +254,7 @@ export default function ExplorePage() {
               </button>
             </div>
 
-            <form onSubmit={fetchMovies} className="space-y-4">
+            <form onSubmit={handleFilterSubmit} className="space-y-4">
               <div className="space-y-2">
                 <label className="text-sm text-gray-400">Movie Title</label>
                 <input
@@ -391,129 +419,130 @@ export default function ExplorePage() {
             </div>
           )}
 
-          {selectedMovie &&
-            movieDetails &&
-             (
-              <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-                <div className="bg-gray-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto relative">
-                (<button
+          {selectedMovie && movieDetails && (
+            <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+              <div className="bg-gray-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto relative">
+                (
+                <button
                   onClick={() => setSelectedMovie(null)}
                   className="fixed top-4 right-4 text-white bg-blue-600  rounded-full p-2 hover:bg-opacity-75 z-20"
                 >
                   <X className="h-6 w-6" />
                 </button>
-
-                  <div className="relative">
-                    {movieDetails.backdrop_path && (
-                      <div className="w-full h-[300px] relative">
-                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent z-10" />
-                        <img
-                          src={`https://image.tmdb.org/t/p/original${movieDetails.backdrop_path}`}
-                          alt={movieDetails.title}
-                          className="w-full h-full object-cover"
-                        />
+                <div className="relative">
+                  {movieDetails.backdrop_path && (
+                    <div className="w-full h-[300px] relative">
+                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent z-10" />
+                      <img
+                        src={`https://image.tmdb.org/t/p/original${movieDetails.backdrop_path}`}
+                        alt={movieDetails.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="p-6">
+                  <div className="flex flex-col md:flex-row gap-6">
+                    <div className="w-full md:w-1/3">
+                      <img
+                        src={`https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`}
+                        alt={movieDetails.title}
+                        className="w-full rounded-lg shadow-lg"
+                      />
+                    </div>
+                    <div className="w-full md:w-2/3">
+                      <h2 className="text-3xl font-bold text-white mb-2">
+                        {movieDetails.title}
+                      </h2>
+                      <div className="flex items-center gap-4 text-gray-400 mb-4">
+                        <span>
+                          {new Date(movieDetails.release_date).getFullYear()}
+                        </span>
+                        <span>•</span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-4 w-4" />
+                          {formatRuntime(movieDetails.runtime)}
+                        </span>
+                        <span>•</span>
+                        <span className="bg-blue-500 text-white px-2 py-1 rounded">
+                          ⭐ {movieDetails.vote_average.toFixed(1)}
+                        </span>
                       </div>
-                    )}
-                  </div>
 
-                  <div className="p-6">
-                    <div className="flex flex-col md:flex-row gap-6">
-                      <div className="w-full md:w-1/3">
-                        <img
-                          src={`https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`}
-                          alt={movieDetails.title}
-                          className="w-full rounded-lg shadow-lg"
-                        />
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {movieDetails.genres.map((genre) => (
+                          <span
+                            key={genre.id}
+                            className="bg-gray-800 text-gray-300 px-3 py-1 rounded-full text-sm"
+                          >
+                            {genre.name}
+                          </span>
+                        ))}
                       </div>
-                      <div className="w-full md:w-2/3">
-                        <h2 className="text-3xl font-bold text-white mb-2">
-                          {movieDetails.title}
-                        </h2>
-                        <div className="flex items-center gap-4 text-gray-400 mb-4">
-                          <span>
-                            {new Date(movieDetails.release_date).getFullYear()}
-                          </span>
-                          <span>•</span>
-                          <span className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
-                            {formatRuntime(movieDetails.runtime)}
-                          </span>
-                          <span>•</span>
-                          <span className="bg-blue-500 text-white px-2 py-1 rounded">
-                            ⭐ {movieDetails.vote_average.toFixed(1)}
-                          </span>
-                        </div>
 
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {movieDetails.genres.map((genre) => (
-                            <span
-                              key={genre.id}
-                              className="bg-gray-800 text-gray-300 px-3 py-1 rounded-full text-sm"
-                            >
-                              {genre.name}
-                            </span>
-                          ))}
-                        </div>
+                      <p className="text-gray-300 mb-6">
+                        {movieDetails.overview}
+                      </p>
 
-                        <p className="text-gray-300 mb-6">
-                          {movieDetails.overview}
-                        </p>
-
-                        <div className="mb-6">
-                          <h3 className="text-xl font-semibold text-white mb-2">
-                            Cast
-                          </h3>
-                          <div className="flex flex-wrap gap-4">
-                            {movieDetails.credits.cast
-                              .slice(0, 5)
-                              .map((actor) => (
-                                <div key={actor.id} className="text-center">
-                                  {actor.profile_path ? (
-                                    <img
-                                      src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
-                                      alt={actor.name}
-                                      className="w-20 h-20 rounded-full object-cover mb-2"
-                                    />
-                                  ) : (
-                                    <div className="w-20 h-20 rounded-full bg-gray-800 flex items-center justify-center mb-2">
-                                      <span className="text-2xl text-gray-500">
-                                        ?
-                                      </span>
-                                    </div>
-                                  )}
-                                  <p className="text-white text-sm">
-                                    {actor.name}
-                                  </p>
-                                  <p className="text-gray-400 text-xs">
-                                    {actor.character}
-                                  </p>
-                                </div>
-                              ))}
-                          </div>
+                      <div className="mb-6">
+                        <h3 className="text-xl font-semibold text-white mb-2">
+                          Cast
+                        </h3>
+                        <div className="flex flex-wrap gap-4">
+                          {movieDetails.credits.cast
+                            .slice(0, 5)
+                            .map((actor) => (
+                              <div key={actor.id} className="text-center">
+                                {actor.profile_path ? (
+                                  <img
+                                    src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
+                                    alt={actor.name}
+                                    className="w-20 h-20 rounded-full object-cover mb-2"
+                                  />
+                                ) : (
+                                  <div className="w-20 h-20 rounded-full bg-gray-800 flex items-center justify-center mb-2">
+                                    <span className="text-2xl text-gray-500">
+                                      ?
+                                    </span>
+                                  </div>
+                                )}
+                                <p className="text-white text-sm">
+                                  {actor.name}
+                                </p>
+                                <p className="text-gray-400 text-xs">
+                                  {actor.character}
+                                </p>
+                              </div>
+                            ))}
                         </div>
-                      {isRegistered && (<Button
-                        onClick={() => toggleFavorite(movieDetails.id)}
-                        className={`w-full md:w-auto ${favorites.includes(movieDetails.id)
-                          ? "bg-pink-600 hover:bg-pink-700"
-                          : "bg-blue-500 hover:bg-blue-600"
+                      </div>
+                      {isRegistered && (
+                        <Button
+                          onClick={() => toggleFavorite(movieDetails.id)}
+                          className={`w-full md:w-auto ${
+                            favorites.includes(movieDetails.id)
+                              ? "bg-pink-600 hover:bg-pink-700"
+                              : "bg-blue-500 hover:bg-blue-600"
                           }`}
-                      >
-                        <Heart
-                          className={`h-4 w-4 mr-2 ${favorites.includes(movieDetails.id)
-                            ? "fill-current"
-                            : ""
+                        >
+                          <Heart
+                            className={`h-4 w-4 mr-2 ${
+                              favorites.includes(movieDetails.id)
+                                ? "fill-current"
+                                : ""
                             }`}
-                        />
-                        {favorites.includes(movieDetails.id)
-                          ? "Remove from Favorites"
-                          : "Add to Favorites"}
-                      </Button>)}
-                      </div>
+                          />
+                          {favorites.includes(movieDetails.id)
+                            ? "Remove from Favorites"
+                            : "Add to Favorites"}
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
-            )}
+            </div>
+          )}
         </div>
 
         <Pagination
