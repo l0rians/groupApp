@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import Navbar from "@/components/navbar";
@@ -13,11 +13,18 @@ const API_KEY = "8ec0629bf685d1704229f499278c23a5";
 const API_URL = "https://api.themoviedb.org/3";
 
 export default function ExplorePage() {
+  return (
+    <Suspense>
+      <ExplorePageCore/>
+    </Suspense>
+  );
+}
+
+function ExplorePageCore() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [showFilters, setShowFilters] = useState(false);
-  //const [title, setTitle] = useState(searchParams.get("title") || "");
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(searchParams.get("title") || "");
   const [genre, setGenre] = useState(searchParams.get("genre") || "");
   const [rating, setRating] = useState(searchParams.get("rating") || "");
   const [year, setYear] = useState(searchParams.get("year") || "");
@@ -34,34 +41,17 @@ export default function ExplorePage() {
   const initialPage = parseInt(searchParams.get("page")) || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
 
-  
-
-
-  //const updateURL = (newPage = 1) => {
-    //const params = new URLSearchParams({
-      //...(title && { title }),
-      //...(genre && { genre }),
-      //...(rating && { rating }),
-      //...(year && { year }),
-      //...(language && { language }),
-      //page: newPage,
-    //});
-
-    //router.push(`?${params.toString()}`, undefined, { shallow: true });
-  //};
   const updateURL = (newPage = 1) => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams({
-        ...(title && { title }),
-        ...(genre && { genre }),
-        ...(rating && { rating }),
-        ...(year && { year }),
-        ...(language && { language }),
-        page: newPage,
-      });
+    const params = new URLSearchParams({
+      ...(title && { title }),
+      ...(genre && { genre }),
+      ...(rating && { rating }),
+      ...(year && { year }),
+      ...(language && { language }),
+      page: newPage,
+    });
 
-      router.push(`?${params.toString()}`, { shallow: true });
-    }
+    router.push(`?${params.toString()}`, undefined, { shallow: true });
   };
 
   const fetchMovies = async (e) => {
