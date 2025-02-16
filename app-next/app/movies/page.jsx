@@ -16,7 +16,8 @@ export default function ExplorePage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [showFilters, setShowFilters] = useState(false);
-  const [title, setTitle] = useState(searchParams.get("title") || "");
+  //const [title, setTitle] = useState(searchParams.get("title") || "");
+  const [title, setTitle] = useState("");
   const [genre, setGenre] = useState(searchParams.get("genre") || "");
   const [rating, setRating] = useState(searchParams.get("rating") || "");
   const [year, setYear] = useState(searchParams.get("year") || "");
@@ -32,6 +33,9 @@ export default function ExplorePage() {
 
   const initialPage = parseInt(searchParams.get("page")) || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
+
+  
+
 
   const updateURL = (newPage = 1) => {
     const params = new URLSearchParams({
@@ -79,7 +83,10 @@ export default function ExplorePage() {
       setLoading(false);
     }
   };
-
+useEffect(() => {
+  setTitle(searchParams.get("title") || "");
+}, [searchParams]);
+  
   useEffect(() => {
     fetchMovies(currentPage);
   }, [currentPage, title, genre, rating, year, language]);
