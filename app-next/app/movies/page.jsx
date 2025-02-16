@@ -37,17 +37,31 @@ export default function ExplorePage() {
   
 
 
-  const updateURL = (newPage = 1) => {
-    const params = new URLSearchParams({
-      ...(title && { title }),
-      ...(genre && { genre }),
-      ...(rating && { rating }),
-      ...(year && { year }),
-      ...(language && { language }),
-      page: newPage,
-    });
+  //const updateURL = (newPage = 1) => {
+    //const params = new URLSearchParams({
+      //...(title && { title }),
+      //...(genre && { genre }),
+      //...(rating && { rating }),
+      //...(year && { year }),
+      //...(language && { language }),
+      //page: newPage,
+    //});
 
-    router.push(`?${params.toString()}`, undefined, { shallow: true });
+    //router.push(`?${params.toString()}`, undefined, { shallow: true });
+  //};
+  const updateURL = (newPage = 1) => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams({
+        ...(title && { title }),
+        ...(genre && { genre }),
+        ...(rating && { rating }),
+        ...(year && { year }),
+        ...(language && { language }),
+        page: newPage,
+      });
+
+      router.push(`?${params.toString()}`, { shallow: true });
+    }
   };
 
   const fetchMovies = async (e) => {
@@ -83,10 +97,7 @@ export default function ExplorePage() {
       setLoading(false);
     }
   };
-useEffect(() => {
-  setTitle(searchParams.get("title") || "");
-}, [searchParams]);
-  
+
   useEffect(() => {
     fetchMovies(currentPage);
   }, [currentPage, title, genre, rating, year, language]);
