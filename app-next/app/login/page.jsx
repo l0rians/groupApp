@@ -4,9 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { PlayCircle } from "lucide-react";
-import { login } from "@/action";
-
-
+import { login } from "@/actions/authActions";
 
 const ComingSoon = ({ onClose }) => {
   return (
@@ -41,7 +39,6 @@ const LoginForm = () => {
   const closeModal = () => setIsModalOpen(false);
   const handleCloseLoginForm = () => router.push("/");
 
-  
   const handleSubmit = async (event) => {
     event.preventDefault();
 

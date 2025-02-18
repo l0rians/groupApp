@@ -3,7 +3,7 @@ import { useState } from "react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
-import { createRoom } from "@/roomActions";
+import { createRoom } from "@/actions/roomActions";
 import { Youtube, Users, MessageCircle } from "lucide-react";
 
 export default function CreateRoomPage() {
@@ -27,8 +27,8 @@ export default function CreateRoomPage() {
   };
 
   return (
-     <div className="flex flex-col min-h-screen bg-gray-800">
-     <div className="container mx-auto px-4 flex-grow">
+    <div className="flex flex-col min-h-screen bg-gray-800">
+      <div className="container mx-auto px-4 flex-grow">
         <Navbar />
         <main className="flex-1 container mx-auto px-4 py-8 text-center">
           <h1 className="text-4xl font-bold text-gray-300 mb-12">

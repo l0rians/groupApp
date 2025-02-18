@@ -11,7 +11,8 @@ import {
   FaCog,
   FaFileAlt,
 } from "react-icons/fa";
-import { logout, getUserProfile, updateProfile } from "@/action";
+import { getUserProfile, updateProfile } from "@/actions/userActions";
+import { logout } from "@/actions/authActions";
 import RateUs from "../rateus/RateUs";
 import EditProfile from "@/app/Accountdetails/EditProfile";
 import MyList from "@/app/mylist/mylist";
