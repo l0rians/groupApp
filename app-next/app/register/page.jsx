@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { PlayCircle } from "lucide-react";
-import { register } from "@/action";
+import { register } from "@/actions/authActions";
 
 const SignUpForm = () => {
   const router = useRouter();
@@ -74,14 +74,14 @@ const SignUpForm = () => {
         if (result.success) {
           router.push("/login");
         } else {
-          setError("Registration failed. Please try again."); 
+          setError("Registration failed. Please try again.");
         }
       } catch (err) {
         setError("An unexpected error occurred. Please try again later.");
         console.error("Error during registration:", err);
       }
     } else {
-      setError("Please correct the highlighted errors."); 
+      setError("Please correct the highlighted errors.");
     }
   };
 

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getMessages } from "@/roomActions";
+import { getMessages } from "@/actions/messageActions";
 
 const MessageUpdater = ({ roomId, onUpdate, initialMessages }) => {
   const [lastMessageTimestamp, setLastMessageTimestamp] = useState(null);

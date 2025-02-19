@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { sendMessage } from "@/roomActions";
+import { sendMessage } from "@/actions/messageActions";
 import MessageUpdater from "@/components/MessageUpdater";
 import AutoScroll from "@/components/AutoScroll";
 

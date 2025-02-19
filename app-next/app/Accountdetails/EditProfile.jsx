@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import { getUserProfile, updateProfile } from "@/action";
+import { getUserProfile, updateProfile } from "@/actions/userActions";
 import { UploadButton } from "@/utils/uploadthing";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -159,7 +159,6 @@ export default function EditProfile({ onClose, updateAvatar }) {
               <button
                 onClick={open}
                 className="w-full py-3 rounded-xl bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white font-semibold flex items-center justify-center space-x-2 shadow-lg transition-transform transform hover:scale-105"
-                
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

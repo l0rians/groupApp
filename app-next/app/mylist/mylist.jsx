@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
-import { getFavorites, removeFromFavorites } from "@/action";
+import { getFavorites, removeFromFavorites } from "@/actions/favoritesActions";
 
 export default function MyList() {
   const [favorites, setFavorites] = useState([]);
@@ -70,7 +70,6 @@ export default function MyList() {
             key={movie.id}
             className="bg-gray-900 rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-200 flex flex-col"
           >
-            
             <div className="relative pb-[150%]">
               <img
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -83,7 +82,6 @@ export default function MyList() {
               />
             </div>
 
-            
             <div className="p-4 flex flex-col flex-grow">
               <div className="flex justify-between items-start gap-2 mb-2">
                 <h3 className="text-lg font-semibold text-white line-clamp-1">
@@ -97,7 +95,6 @@ export default function MyList() {
                 {new Date(movie.release_date).getFullYear()}
               </p>
 
-              
               <Button
                 onClick={(e) => {
                   e.stopPropagation();

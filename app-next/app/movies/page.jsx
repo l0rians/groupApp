@@ -7,7 +7,11 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { SlidersHorizontal, X, Clock, Heart } from "lucide-react";
-import { addToFavorites, removeFromFavorites, getFavorites } from "@/action";
+import {
+  addToFavorites,
+  removeFromFavorites,
+  getFavorites,
+} from "@/actions/favoritesActions";
 
 const API_KEY = "8ec0629bf685d1704229f499278c23a5";
 const API_URL = "https://api.themoviedb.org/3";
@@ -15,7 +19,7 @@ const API_URL = "https://api.themoviedb.org/3";
 export default function ExplorePage() {
   return (
     <Suspense>
-      <ExplorePageCore/>
+      <ExplorePageCore />
     </Suspense>
   );
 }
