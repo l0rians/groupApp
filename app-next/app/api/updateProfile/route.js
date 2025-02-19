@@ -1,4 +1,4 @@
-import { updateProfile } from "@/action";
+import { updateProfile } from "@/actions/userActions";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {

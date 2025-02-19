@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { Github, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { saveContactMessage } from "@/action";
+import { saveContactMessage } from "@/actions/contactActions";
 
 export default function Footer() {
   const [activeModal, setActiveModal] = useState(null);
