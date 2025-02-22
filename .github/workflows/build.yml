@@ -21,14 +21,10 @@ jobs:
           node-version: "20.x"
 
       - name: Install dependencies
-        run: |
-          cd app-next
-          npm install
+        run: npm install
 
       - name: Build the project
-        run: |
-          cd app-next
-          npm run build
+        run: npm run build
 
       - name: Run tests
         run: npm test
